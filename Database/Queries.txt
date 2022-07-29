@@ -1,0 +1,22 @@
+1st Query
+
+SELECT Beverage_category, Beverage, Beverage_prep, Calories 
+FROM coffe_shop.drinkmenu
+where (select max(Calories) from coffe_shop.drinkmenu) = Calories;
+---------------------------------------------------------------------------------
+2nd Query
+
+SELECT Beverage_category, avg(Calories) 
+FROM coffe_shop.drinkmenu
+group by Beverage_category;
+---------------------------------------------------------------------------------
+3rd Query
+
+with big_Avg as
+(SELECT Beverage_category, avg(Calories) as Avg_Cal
+FROM coffe_shop.drinkmenu
+group by Beverage_category)
+select d.beverage_category, d.beverage, d.beverage_prep, d.calories, v.Avg_Cal
+from coffe_shop.drinkmenu as d, big_Avg as v
+where d.Beverage_category = v.beverage_category and d.Calories < v.Avg_Cal;
+---------------------------------------------------------------------------------
